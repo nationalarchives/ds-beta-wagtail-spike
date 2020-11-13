@@ -25,8 +25,6 @@ You will need python on your machine.
 
 I used [this series](https://www.youtube.com/watch?v=plggtgoQjcs) and [the 3 API videos in this series](https://www.youtube.com/playlist?list=PLMQHMcNi6ocsS8Bfnuy_IDgJ4bHRRrvub) to understand everything I've written below, incase you don't like reading!
 
-(Note: in the code snippets below I haven't included all the imports for each python file, so look in the source code for these.)
-
 ## Creating the python project
 
 1. Create a Python virtual environment
