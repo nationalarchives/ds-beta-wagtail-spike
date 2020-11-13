@@ -107,27 +107,27 @@ INSTALLED_APPS = [
 ]
 ```
 
-We then make migrations to allow updating of the database. This is achieved by running `./manage.py makemigrations` in the main `ds_beta_wagtail_example` wagtail folder. Then, we migrate the database with `./manage.py migrate`
+We then make migrations to allow updating of the database. This is achieved by running `./manage.py makemigrations` in the root folder. Then, we migrate the database with `./manage.py migrate`
 
 ### Editor's setup
 
-Now, in the Wagtail admin panel, editors can click "Add child page" under the "Home" section. They are then presented with the types of pages they can create.
+Now, in the Wagtail admin panel, editors can add these pages. Click the Pages section on the left of the admin panel, then click the Home section. Then click click "Add child page". You are then presented with the types of pages you can create:
 
 ![image](images/create-page.png "Create page")
 
-They can then create a BlogIndexPage. We can then see the one field that `BlogIndexPage` inherited, title.
+You can then create a BlogIndexPage. We can then see the one field that `BlogIndexPage` inherited, title:
 
 ![image](images/blog-index.png "Blog index page")
 
-In the promote section, we are given some SEO settings. This is important to give us the url of the published page. In this case we want `localhost:8000/blog`
+In the promote section, we are given some SEO settings. This is important to give us the url of the published page. In this case we want `localhost:8000/blog`:
 
 ![image](images/promote.png "Adding slug")
 
-You can also schedule a post to go live and have it expire.
+You can also schedule a post to go live and have it expire:
 
 ![image](images/expire.png "Expire")
 
-We then create `BlogPost` instances which are children of our `BlogIndexPage.` You can see the fields we defined are available to editors:
+We then create `BlogPost` instances which are children of our `BlogIndexPage.` To do this, click the Pages section on the left of the admin panel, then click the Home section. Then hover over your BlogIndexPage and click "Add child page". Then add a `BlogPost`. You can see the fields we defined are available to editors:
 
 ![image](images/blog-post.png "Creating a blogpost")
 
@@ -235,10 +235,19 @@ This simply loops over each block and renders it in a `<section>` tag, with a cl
 
 ## Using the API - Headless CMS
 
-For beta, it is likely that we will use the API to access content entered into wagtail. Therefore, we will need to enable the API. To do this we add `'wagtail.api.v2'` to the `INSTALLED_APPS` array in `ds_beta_wagtail_example/base.py`. We can also install `rest_framework` for an API GUI.
+For beta, it is likely that we will use the API to access content entered into wagtail. Therefore, we will need to enable the API. To do this we add `'wagtail.api.v2'` to the `INSTALLED_APPS = []` array in `ds_beta_wagtail_example/base.py`. We also install `rest_framework` for an API GUI:
+
+```
+INSTALLED_APPS = [
+    'home',
+    'search',
+    'blog',
+    'wagtail.api.v2',
+    'rest_framework',
+```
 
 
-We then create an `api.py` file in `ds_beta_wagtail_example`. We import four libraries:
+We then create an `api.py` file in `/ds_beta_wagtail_example`. We import four libraries:
 ```
 PagesAPIViewSet - this is for accessing pages
 ImagesAPIViewSet - this is for accessing images
@@ -260,9 +269,20 @@ api_router.register_endpoint('images', ImagesAPIViewSet)
 api_router.register_endpoint('documents', DocumentsAPIViewSet)
 ```
 
-Then, in `urls.py` of `ds_beta_wagtail_example`, we import our api file - `from .api import api_router` and then register it in the `url_patterns` array:
+Then, in `urls.py` of `/ds_beta_wagtail_example`, we import our api file - `from .api import api_router` and then register it in the `url_patterns` array:
 ```python
-    path('api/v2/', api_router.urls)
+    from .api import api_router
+
+    urlpatterns = [
+        path('django-admin/', admin.site.urls),
+
+        path('admin/', include(wagtailadmin_urls)),
+        path('documents/', include(wagtaildocs_urls)),
+
+        path('search/', search_views.search, name='search'),
+        path('api/v2/', api_router.urls)
+    ]
+
 ```
 
 You can now view the API at:
@@ -272,7 +292,7 @@ You can now view the API at:
 
 ![image](images/api.png)
 
-This is the Page API and it's displaying all our pages. We can expand a page by clicking its `detail_url` link, e.g. `http://localhost:8000/api/v2/pages/6/` which gives us a bit more information. But it doesn't give us the content blocks yet.
+This is the Page API and it's displaying all our pages. We can expand a page by clicking its `detail_url` link, e.g. `http://localhost:8000/api/v2/pages/3/` which gives us a bit more information. But it doesn't give us the content blocks yet.
 
 ### Grabbing content from the API
 
