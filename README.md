@@ -63,8 +63,10 @@ To create a blog example, in this repo we have created a `blog` parent app, by r
 
 In `models.py`, we define a BlogIndexPage, which inherits from the default Page class:
 
-`class BlogHomePage(Page):
-    pass`
+```python
+class BlogHomePage(Page):
+    pass
+```
 
 Although it is empty, it inherits some fields from Wagtail. It inherits a default "Title" attribute which editors can input into, and that developers would use in the HTML.
 
@@ -173,7 +175,7 @@ We have used a for loop to display each blog post on our `blog_index_page.html` 
 ```
 
 And a `slug-url` to easily link to the blog from the default homepage in `home/templates/home/welcome_page.html`: 
-```
+```html
 <a href="{% slugurl 'blog' %}">
 {% trans "Blog" %}
 </a>
@@ -215,7 +217,7 @@ After migrating your database again, you can then access this Streamfield page i
 
 We can create as many content blocks as we want. They will be served in the order they are displayed. Then we have defined our template `blog/templates/blog/stream_field_blog_post.html` as:
 
-```
+```html
 {% extends "base.html" %}
 
 {% load wagtailcore_tags %}
@@ -345,7 +347,7 @@ class StreamFieldBlogPost(Page):
 
 and now our API returns this `content` field for our Streamfield posts:
 
-```
+```json
     "title": "Felix Ruddick",
     "content": [
         {
@@ -389,8 +391,3 @@ We can search all searchable fields (as defined by us in Python) with:
 We can also find a page by its frontend Wagtail URL:
 
 `http://localhost:8000/api/v2/pages/find/?html_path=/blog` -> redirects to `http://localhost:8000/api/v2/pages/4/`
-
-
-
-
-# ds-beta-wagtail-spike
