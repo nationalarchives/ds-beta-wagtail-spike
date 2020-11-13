@@ -113,23 +113,23 @@ We then make migrations to allow updating of the database. This is achieved by r
 
 Now, in the Wagtail admin panel, editors can click "Add child page" under the "Home" section. They are then presented with the types of pages they can create.
 
-[!image](images/create-page.png)
+![image](images/create-page.png "Create page")
 
 They can then create a BlogIndexPage. We can then see the one field that `BlogIndexPage` inherited, title.
 
-[!image](images/blog-index.png)
+![image](images/blog-index.png "Blog index page")
 
 In the promote section, we are given some SEO settings. This is important to give us the url of the published page. In this case we want `localhost:8000/blog`
 
-[!image](images/promote.png)
+![image](images/promote.png "Adding slug")
 
 You can also schedule a post to go live and have it expire.
 
-[!image](images/expire.png)
+![image](images/expire.png "Expire")
 
 We then create `BlogPost` instances which are children of our `BlogIndexPage.` You can see the fields we defined are available to editors:
 
-[!image](images/blog-post.png)
+![image](images/blog-post.png "Creating a blogpost")
 
 ### Displaying our content with HTML templates 
 
@@ -213,7 +213,7 @@ class StreamFieldBlogPost(Page):
 
 After migrating your database again, you can then access this Streamfield page in the editor:
 
-[!image](images/streamfield.png)
+![image](images/streamfield.png "Streamfield")
 
 We can create as many content blocks as we want. They will be served in the order they are displayed. Then we have defined our template `blog/templates/blog/stream_field_blog_post.html` as:
 
@@ -270,7 +270,7 @@ You can now view the API at:
 - http://127.0.0.1:8000/api/v2/images/
 - http://127.0.0.1:8000/api/v2/documents/
 
-[!image](images/api.png)
+![image](images/api.png)
 
 This is the Page API and it's displaying all our pages. We can expand a page by clicking its `detail_url` link, e.g. `http://localhost:8000/api/v2/pages/6/` which gives us a bit more information. But it doesn't give us the content blocks yet.
 
@@ -302,7 +302,7 @@ class BlogPost(Page):
 ```
 and now we can access the summary for each `BlogPost` in the API.:
 
-[!image](images/summary.png)
+![image](images/summary.png)
 
 Note by default wagtail thinks our website is setup at localhost:80 - therefore links in the JSON will be incorrect. You need to go into `http://localhost:8000/admin/sites/`, add `localhost:8000` as a site, and delete `localhost:80` to fix the API.
 
