@@ -4,7 +4,7 @@ import dj_database_url
 import os
 
 
-env = os.envrion.copy()
+env = os.environ.copy()
 SECRET_KEY = env['SECRET_KEY']
 DATABASES['default'] =  dj_database_url.config()
     
