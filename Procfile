@@ -1,0 +1,1 @@
+web: gunicorn ds_beta_wagtail_example.wsgi --log-file -
